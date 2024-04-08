@@ -5351,6 +5351,44 @@
     }
   },
   
+  "natural-questions-simplified": {
+    "doc": {
+      "instructions": "text", 
+      "cache_path": "NQ320k_Corpus.tsv"
+    },
+    "train/queries": {
+      "instructions": "text", 
+      "cache_path": "nq_train_topics.tsv"
+    },
+    "train/qrels": {
+      "instructions": "text", 
+      "cache_path": "nq_train_qrel.tsv"
+    },
+    "dev/queries": {
+      "instructions": "text", 
+      "cache_path": "nq_dev_topics.tsv"
+    },
+    "dev/qrels": {
+      "instructions": "text", 
+      "cache_path": "nq_dev_qrel.tsv"
+    },
+    "dev/seen/queries": {
+      "instructions": "text", 
+      "cache_path": "nq_dev_topics_seen.tsv"
+    },
+    "dev/seen/qrels": {
+      "instructions": "text", 
+      "cache_path": "nq_dev_qrel_seen.tsv"
+    },
+    "dev/unseen/queries": {
+      "instructions": "text", 
+      "cache_path": "nq_dev_topics_unseen.tsv"
+    },
+    "dev/unseen/qrels": {
+      "instructions": "text", 
+      "cache_path": "nq_dev_qrel_unseen.tsv"
+    }
+  },
   
   "neuclir": {
     "1/fa/docs": {
