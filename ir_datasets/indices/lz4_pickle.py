@@ -57,16 +57,22 @@ class Lz4PickleIter:
         if self.slice.start >= self.slice.stop:
             raise StopIteration
         if self.bin is None:
-            self.bin = open(self.lookup._bin_path, "rb")
-        if self.next_index != self.slice.start:
-            # Fast -- lookup keeps track of position of each index
-            if self.pos_idx is None:
-                self.pos_idx = NumpyPosIndex(self.lookup._pos_path)
-            new_pos = self.pos_idx[self.slice.start][0]
-            self.bin.seek(
-                new_pos
-            )  # this seek is smart -- if alrady in buffer, skips to that point
-            self.next_index = self.slice.start
+            self.bin = self.lookup.bin()
+        # Fast -- lookup keeps track of position of each index
+        if self.pos_idx is None:
+            self.pos_idx = self.lookup.pos()
+        
+        # get the new positions in the bin
+        new_pos = self.pos_idx[self.slice.start][0]
+        if new_pos == -1:
+            # start of the iter (self.next_index == self.slice.start == 0)
+            new_pos = 0
+        
+        self.bin.seek(
+            new_pos
+        )  # this seek is smart -- if alrady in buffer, skips to that point
+        self.next_index = self.slice.start
+        
         result = _read_next(self.bin, self.lookup._doc_cls)
         self.next_index += 1
         self.slice = slice(
@@ -78,12 +84,13 @@ class Lz4PickleIter:
         return self
 
     def __del__(self):
-        if self.bin is not None:
-            self.bin.close()
-            self.bin = None
-        if self.pos_idx:
-            self.pos_idx.close()
-            self.pos_idx = None
+        # if self.bin is not None:
+        #     self.bin.close()
+        #     self.bin = None
+        # if self.pos_idx:
+        #     self.pos_idx.close()
+        #     self.pos_idx = None
+        pass
 
     def __getitem__(self, key):
         if isinstance(key, slice):
